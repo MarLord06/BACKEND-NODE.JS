@@ -18,6 +18,8 @@ app.get('/', (request, response) => {
 
 app.get('/usuarios/:id', db.getUsuariobyID);
 
+app.get('/calcularTotal/:id', db.calcularTotal);
+
 app.get('/usuarios', db.getUsuarios); // Ruta para obtener todos los usuarios
 
 app.listen(port, () => {
