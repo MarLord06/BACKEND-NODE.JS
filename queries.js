@@ -1,11 +1,5 @@
-const Pool = require('pg').Pool;
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'CAFETERIA',
-    password: 'admin',
-    port: 5432,
-})
+const { request } = require('express');
+const pool = require('./bbdd/credenciales');
 
 
 
@@ -39,10 +33,20 @@ const calcularTotal = (requests, response) => {
         })
 }
 
-
+const postProductos = (requests, response) => {
+    const {nombre, precio, stock, tipo } = request.body
+    pool.query('SELECT * FROM agregarProducto($1, $2, $3, $4, $5, $6)', [nombre, precio, stock,tipo],
+        (error, results) =>{
+            if(error){
+                throw error;
+            }
+            response.status(200).json(results.rows);
+        })
+}
 
 module.exports = {
     getUsuarios,
     getUsuariobyID,
     calcularTotal,
+    postProductos,
 }
